@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import profileImage from "./assets/Profile.jpeg";
+import profileImage from "./assets/profile.jpeg";
 
 function App() {
     const [activeTech, setActiveTech] = useState(0);
