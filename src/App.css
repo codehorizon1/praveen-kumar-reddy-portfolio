@@ -4703,3 +4703,381 @@ a {
   }
 }
 
+
+/* =========================================================
+   CINEMATIC SCROLL MOTION
+   Added for the current portfolio design
+========================================================= */
+
+.scroll-motion {
+  --scroll-progress: 0;
+  will-change: transform;
+  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* SECTION HEADINGS */
+.section-heading.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * -18px),
+    0
+  );
+}
+
+/* HERO */
+.hero-content.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * -35px),
+    0
+  );
+}
+
+.hero-visual.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 45px),
+    0
+  );
+}
+
+/* HERO IMAGE DEPTH */
+.hero-visual.scroll-motion .developer-card {
+  transform:
+    perspective(1000px)
+    rotateY(calc(-10deg + (var(--scroll-progress) * 5deg)))
+    rotateX(calc(5deg - (var(--scroll-progress) * 4deg)))
+    translateY(calc(var(--scroll-progress) * -8px));
+}
+
+/* HERO ORBITS */
+.hero-visual.scroll-motion .orbit-one {
+  transform:
+    rotateX(65deg)
+    rotateZ(calc(-20deg + (var(--scroll-progress) * 12deg)))
+    scale(calc(1 + (var(--scroll-progress) * 0.035)));
+}
+
+.hero-visual.scroll-motion .orbit-two {
+  transform:
+    rotateX(65deg)
+    rotateZ(calc(40deg - (var(--scroll-progress) * 16deg)))
+    scale(calc(1 - (var(--scroll-progress) * 0.025)));
+}
+
+/* ABOUT */
+.about-main.scroll-motion {
+  transform: translate3d(
+    calc(var(--scroll-progress) * -28px),
+    calc(var(--scroll-progress) * 10px),
+    0
+  );
+}
+
+.about-card.scroll-motion {
+  transform:
+    translate3d(
+      0,
+      calc(var(--scroll-progress) * 32px),
+      0
+    )
+    rotateX(calc(var(--scroll-progress) * 1.5deg));
+}
+
+.about-card:nth-child(2).scroll-motion {
+  transition-delay: 45ms;
+}
+
+.about-card:nth-child(3).scroll-motion {
+  transition-delay: 90ms;
+}
+
+.about-bottom > div.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 22px),
+    0
+  );
+}
+
+/* TECHNOLOGY / SKILLS */
+.skills-intro.scroll-motion {
+  transform: translate3d(
+    calc(var(--scroll-progress) * 25px),
+    calc(var(--scroll-progress) * 8px),
+    0
+  );
+}
+
+.skill-category.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 25px),
+    0
+  );
+}
+
+.skill-card.scroll-motion {
+  transform:
+    translate3d(
+      0,
+      calc(var(--scroll-progress) * 38px),
+      0
+    )
+    rotateX(calc(var(--scroll-progress) * 1.2deg));
+}
+
+.skill-card:nth-child(2).scroll-motion {
+  transition-delay: 40ms;
+}
+
+.skill-card:nth-child(3).scroll-motion {
+  transition-delay: 80ms;
+}
+
+.skill-card:nth-child(4).scroll-motion {
+  transition-delay: 120ms;
+}
+
+.skills-footer.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 20px),
+    0
+  );
+}
+
+/* PROJECTS */
+.projects-intro.scroll-motion {
+  transform: translate3d(
+    calc(var(--scroll-progress) * -20px),
+    0,
+    0
+  );
+}
+
+.project.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 30px),
+    0
+  );
+}
+
+.project.scroll-motion .project-preview {
+  transform:
+    translate3d(
+      0,
+      calc(var(--scroll-progress) * 18px),
+      0
+    )
+    scale(0.985);
+}
+
+.project.scroll-motion .project-info {
+  transform: translate3d(
+    calc(var(--scroll-progress) * 22px),
+    calc(var(--scroll-progress) * -8px),
+    0
+  );
+}
+
+.project.scroll-motion .project-number {
+  transform: translate3d(
+    calc(var(--scroll-progress) * -20px),
+    calc(var(--scroll-progress) * 8px),
+    0
+  );
+}
+
+.projects-footer.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 20px),
+    0
+  );
+}
+
+/* JOURNEY */
+.journey-intro.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 20px),
+    0
+  );
+}
+
+.journey-item.scroll-motion {
+  transform: translate3d(
+    calc(var(--scroll-progress) * -24px),
+    calc(var(--scroll-progress) * 15px),
+    0
+  );
+}
+
+.journey-item.scroll-motion .journey-content {
+  transform: translate3d(
+    calc(var(--scroll-progress) * 14px),
+    0,
+    0
+  );
+}
+
+.journey-footer.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 30px),
+    0
+  );
+}
+
+/* CONTACT */
+.contact-message.scroll-motion {
+  transform: translate3d(
+    calc(var(--scroll-progress) * -25px),
+    calc(var(--scroll-progress) * 10px),
+    0
+  );
+}
+
+.contact-item.scroll-motion {
+  transform: translate3d(
+    calc(var(--scroll-progress) * 22px),
+    calc(var(--scroll-progress) * 12px),
+    0
+  );
+}
+
+.contact-item:nth-child(2).scroll-motion {
+  transition-delay: 35ms;
+}
+
+.contact-item:nth-child(3).scroll-motion {
+  transition-delay: 70ms;
+}
+
+.contact-item:nth-child(4).scroll-motion {
+  transition-delay: 105ms;
+}
+
+.contact-item:nth-child(5).scroll-motion {
+  transition-delay: 140ms;
+}
+
+.contact-availability.scroll-motion {
+  transform: translate3d(
+    0,
+    calc(var(--scroll-progress) * 18px),
+    0
+  );
+}
+
+/* BACKGROUND PARALLAX */
+.background .grid {
+  transform: translateY(
+    calc(var(--scroll-progress, 0) * 15px)
+  );
+}
+
+/* LIGHT DEPTH LAYER */
+.portfolio::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(112, 88, 255, 0.05),
+      transparent 42%
+    );
+}
+
+/* MOBILE */
+@media (max-width: 700px) {
+
+  .hero-content.scroll-motion {
+    transform: translate3d(
+      0,
+      calc(var(--scroll-progress) * -18px),
+      0
+    );
+  }
+
+  .hero-visual.scroll-motion {
+    transform: translate3d(
+      0,
+      calc(var(--scroll-progress) * 20px),
+      0
+    );
+  }
+
+  .about-main.scroll-motion,
+  .contact-message.scroll-motion {
+    transform: translate3d(
+      0,
+      calc(var(--scroll-progress) * 12px),
+      0
+    );
+  }
+
+  .skill-card.scroll-motion {
+    transform: translate3d(
+      0,
+      calc(var(--scroll-progress) * 18px),
+      0
+    );
+  }
+
+  .project.scroll-motion {
+    transform: translate3d(
+      0,
+      calc(var(--scroll-progress) * 18px),
+      0
+    );
+  }
+
+  .project.scroll-motion .project-preview,
+  .project.scroll-motion .project-info {
+    transform:
+      translate3d(
+        0,
+        calc(var(--scroll-progress) * 10px),
+        0
+      )
+      scale(1);
+  }
+
+  .journey-item.scroll-motion {
+    transform: translate3d(
+      0,
+      calc(var(--scroll-progress) * 10px),
+      0
+    );
+  }
+
+  .contact-item.scroll-motion {
+    transform: translate3d(
+      0,
+      calc(var(--scroll-progress) * 10px),
+      0
+    );
+  }
+}
+
+/* ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scroll-motion,
+  .scroll-motion .project-preview,
+  .scroll-motion .project-info,
+  .scroll-motion .journey-content {
+    transform: none !important;
+    transition: none !important;
+  }
+}

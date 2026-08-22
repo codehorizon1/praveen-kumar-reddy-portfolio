@@ -1,186 +1,115 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import profileImage from "./assets/profile.jpeg";
 
 function App() {
-    const [activeTech, setActiveTech] = useState(0);
-
-  const techStages = [
-    {
-      number: "01",
-      category: "FRONTEND",
-      label: "INTERFACE",
-      title: "BUILDING",
-      accent: "DIGITAL EXPERIENCES",
-      description:
-        "Creating responsive and interactive interfaces with modern frontend technologies.",
-      technologies: [
-        {
-          name: "HTML5",
-          type: "STRUCTURE",
-          symbol: "</>",
-        },
-        {
-          name: "CSS3",
-          type: "STYLE",
-          symbol: "#",
-        },
-        {
-          name: "JAVASCRIPT",
-          type: "LOGIC",
-          symbol: "JS",
-        },
-        {
-          name: "REACT.JS",
-          type: "COMPONENTS",
-          symbol: "⚛",
-        },
-      ],
-    },
-
-    {
-      number: "02",
-      category: "BACKEND",
-      label: "SERVER",
-      title: "POWERING",
-      accent: "WEB APPLICATIONS",
-      description:
-        "Developing server-side applications, APIs and backend workflows.",
-      technologies: [
-        {
-          name: "NODE.JS",
-          type: "RUNTIME",
-          symbol: "N",
-        },
-        {
-          name: "EXPRESS.JS",
-          type: "FRAMEWORK",
-          symbol: "EX",
-        },
-        {
-          name: "REST APIs",
-          type: "COMMUNICATION",
-          symbol: "API",
-        },
-      ],
-    },
-
-    {
-      number: "03",
-      category: "DATABASE",
-      label: "DATA",
-      title: "MANAGING",
-      accent: "APPLICATION DATA",
-      description:
-        "Working with databases to store, manage and retrieve application data.",
-      technologies: [
-        {
-          name: "MONGODB",
-          type: "NOSQL",
-          symbol: "M",
-        },
-      ],
-    },
-
-    {
-      number: "04",
-      category: "TOOLS",
-      label: "WORKFLOW",
-      title: "SHIPPING",
-      accent: "BETTER SOFTWARE",
-      description:
-        "Using modern development tools to build, test, design and manage applications.",
-      technologies: [
-        {
-          name: "GIT",
-          type: "VERSION CONTROL",
-          symbol: "G",
-        },
-        {
-          name: "GITHUB",
-          type: "COLLABORATION",
-          symbol: "GH",
-        },
-        {
-          name: "VS CODE",
-          type: "EDITOR",
-          symbol: ">_",
-        },
-        {
-          name: "FIGMA",
-          type: "UI / UX",
-          symbol: "F",
-        },
-        {
-          name: "POSTMAN",
-          type: "API TESTING",
-          symbol: "P",
-        },
-      ],
-    },
-  ];
+  /* =====================================================
+     CINEMATIC SCROLL MOTION
+  ===================================================== */
 
   useEffect(() => {
-    const handleTechScroll = () => {
-      const section = document.getElementById("skills");
+    const elements = document.querySelectorAll(
+      [
+        ".hero-content",
+        ".hero-visual",
+        ".section-heading",
+        ".about-main",
+        ".about-card",
+        ".about-bottom > div",
+        ".skills-intro",
+        ".skill-category",
+        ".skill-card",
+        ".skills-footer",
+        ".projects-intro",
+        ".project",
+        ".projects-footer",
+        ".journey-intro",
+        ".journey-item",
+        ".journey-footer",
+        ".contact-message",
+        ".contact-item",
+        ".contact-availability",
+      ].join(", ")
+    );
 
-      if (!section) return;
+    elements.forEach((element) => {
+      element.classList.add("scroll-motion");
+    });
 
-      const rect = section.getBoundingClientRect();
-      const sectionHeight = section.offsetHeight;
+    let ticking = false;
+
+    const updateScrollMotion = () => {
       const viewportHeight = window.innerHeight;
 
-      const scrollDistance =
-        sectionHeight - viewportHeight;
+      elements.forEach((element) => {
+        const rect = element.getBoundingClientRect();
 
-      if (scrollDistance <= 0) return;
+        const elementCenter =
+          rect.top + rect.height / 2;
 
-      const progress =
-        Math.min(
-          Math.max(
-            -rect.top / scrollDistance,
-            0
-          ),
-          0.9999
+        const viewportCenter =
+          viewportHeight / 2;
+
+        const distance =
+          (elementCenter - viewportCenter) /
+          viewportHeight;
+
+        const progress = Math.max(
+          -1,
+          Math.min(1, distance)
         );
 
-      const stage =
-        Math.floor(
-          progress * techStages.length
+        element.style.setProperty(
+          "--scroll-progress",
+          progress.toFixed(4)
         );
+      });
 
-      setActiveTech(stage);
+      ticking = false;
     };
 
-    handleTechScroll();
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(
+          updateScrollMotion
+        );
+
+        ticking = true;
+      }
+    };
+
+    updateScrollMotion();
 
     window.addEventListener(
       "scroll",
-      handleTechScroll,
+      handleScroll,
       { passive: true }
     );
 
     window.addEventListener(
       "resize",
-      handleTechScroll
+      handleScroll
     );
 
     return () => {
       window.removeEventListener(
         "scroll",
-        handleTechScroll
+        handleScroll
       );
 
       window.removeEventListener(
         "resize",
-        handleTechScroll
+        handleScroll
       );
     };
   }, []);
+
   return (
     <div className="portfolio">
 
-      {/* ================= BACKGROUND ================= */}
+      {/* =====================================================
+          BACKGROUND
+      ===================================================== */}
 
       <div className="background">
         <div className="glow glow-one"></div>
@@ -189,7 +118,9 @@ function App() {
       </div>
 
 
-      {/* ================= NAVBAR ================= */}
+      {/* =====================================================
+          NAVBAR
+      ===================================================== */}
 
       <nav className="navbar">
 
@@ -198,35 +129,67 @@ function App() {
         </div>
 
         <div className="nav-links">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#journey">Journey</a>
-          <a href="#contact">Contact</a>
+
+          <a href="#home">
+            Home
+          </a>
+
+          <a href="#about">
+            About
+          </a>
+
+          <a href="#skills">
+            Skills
+          </a>
+
+          <a href="#projects">
+            Projects
+          </a>
+
+          <a href="#journey">
+            Journey
+          </a>
+
+          <a href="#contact">
+            Contact
+          </a>
+
         </div>
 
-        <a href="#contact" className="nav-button">
+        <a
+          href="#contact"
+          className="nav-button"
+        >
           Let's Talk
         </a>
 
       </nav>
 
 
-      {/* ================= HERO ================= */}
+      {/* =====================================================
+          HERO
+      ===================================================== */}
 
-      <main id="home" className="hero">
+      <main
+        id="home"
+        className="hero"
+      >
 
         <div className="hero-content">
 
           <div className="status">
+
             <span className="status-dot"></span>
+
             AVAILABLE FOR OPPORTUNITIES
+
           </div>
+
 
           <p className="intro">
             HELLO, I'M PRAVEEN KUMAR REDDY
           </p>
+
 
           <h1>
 
@@ -248,9 +211,12 @@ function App() {
 
           </h1>
 
+
           <p className="description">
+
             Full Stack Developer focused on building modern,
             responsive and meaningful web applications.
+
           </p>
 
 
@@ -261,11 +227,13 @@ function App() {
               className="primary-button"
             >
               Explore My Work
-              <span>↗</span>
+
+              <span>
+                ↗
+              </span>
+
             </a>
 
-
-            {/* RESUME BUTTON */}
 
             <a
               href="/Praveen-Kumar-Reddy-Resume.pdf"
@@ -274,7 +242,11 @@ function App() {
               className="secondary-button"
             >
               Download Resume
-              <span>↓</span>
+
+              <span>
+                ↓
+              </span>
+
             </a>
 
 
@@ -298,37 +270,74 @@ function App() {
 
           <div className="orbit orbit-two"></div>
 
+
           <div className="developer-card">
 
             <div className="card-top">
-              <span>PRAVEEN KUMAR REDDY.DEV</span>
-              <span>01</span>
+
+              <span>
+                PRAVEEN KUMAR REDDY.DEV
+              </span>
+
+              <span>
+                01
+              </span>
+
             </div>
 
+
             <div className="profile-image-container">
-      <img
-  src={profileImage}
-  alt="Praveen Kumar Reddy"
-  className="profile-image"
-/>
-    </div>
+
+              <img
+                src={profileImage}
+                alt="Praveen Kumar Reddy"
+                className="profile-image"
+              />
+
+            </div>
+
 
             <div className="card-bottom">
-              <span>MERN STACK</span>
-              <span>2026</span>
+
+              <span>
+                MERN STACK
+              </span>
+
+              <span>
+                2026
+              </span>
+
             </div>
 
           </div>
 
         </div>
 
+
+        {/* SCROLL INDICATOR */}
+
+        <div className="scroll-indicator">
+
+          <span></span>
+
+          SCROLL TO EXPLORE
+
+        </div>
+
       </main>
 
-      {/* ================= ABOUT ================= */}
 
-      <section id="about" className="about-section">
+      {/* =====================================================
+          ABOUT
+      ===================================================== */}
+
+      <section
+        id="about"
+        className="about-section"
+      >
 
         <div className="about-container">
+
 
           <div className="section-heading">
 
@@ -343,8 +352,13 @@ function App() {
               </p>
 
               <h2>
+
                 ABOUT
-                <span> ME.</span>
+
+                <span>
+                  {" "}ME.
+                </span>
+
               </h2>
 
             </div>
@@ -354,25 +368,34 @@ function App() {
 
           <div className="about-grid">
 
+
             <div className="about-main">
 
               <p className="about-intro">
+
                 I'm Praveen Kumar Reddy, a B.Tech Information
                 Technology student with a strong interest in
                 Full Stack Development.
+
               </p>
 
+
               <p className="about-text">
+
                 I'm currently developing my skills in modern
                 web technologies and building practical
                 applications using frontend and backend
                 technologies.
+
               </p>
 
+
               <p className="about-text">
+
                 I enjoy learning by building, experimenting
                 with new technologies and continuously improving
                 my programming and problem-solving skills.
+
               </p>
 
 
@@ -397,6 +420,7 @@ function App() {
 
             <div className="about-cards">
 
+
               <div className="about-card">
 
                 <div className="about-card-number">
@@ -412,8 +436,10 @@ function App() {
                 </h3>
 
                 <p>
+
                   Building modern applications across
                   frontend and backend technologies.
+
                 </p>
 
               </div>
@@ -434,8 +460,10 @@ function App() {
                 </h3>
 
                 <p>
+
                   Improving my problem-solving and debugging
                   abilities through hands-on development.
+
                 </p>
 
               </div>
@@ -456,8 +484,10 @@ function App() {
                 </h3>
 
                 <p>
+
                   Continuously learning new technologies and
                   improving my development skills.
+
                 </p>
 
               </div>
@@ -468,6 +498,7 @@ function App() {
 
 
           <div className="about-bottom">
+
 
             <div>
 
@@ -514,11 +545,17 @@ function App() {
       </section>
 
 
-      {/* ================= SKILLS ================= */}
+      {/* =====================================================
+          SKILLS
+      ===================================================== */}
 
-      <section id="skills" className="skills-section">
+      <section
+        id="skills"
+        className="skills-section"
+      >
 
         <div className="skills-container">
+
 
           <div className="section-heading skills-heading">
 
@@ -533,8 +570,13 @@ function App() {
               </p>
 
               <h2>
+
                 TECH
-                <span> STACK.</span>
+
+                <span>
+                  {" "}STACK.
+                </span>
+
               </h2>
 
             </div>
@@ -545,13 +587,19 @@ function App() {
           <div className="skills-intro">
 
             <p>
+
               Technologies I'm learning and using to build
               modern web applications.
+
             </p>
 
+
             <div className="skills-status">
+
               <span></span>
+
               CURRENTLY LEARNING
+
             </div>
 
           </div>
@@ -582,27 +630,41 @@ function App() {
 
             <div className="skill-grid">
 
+
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">01</span>
+
+                  <span className="skill-index">
+                    01
+                  </span>
+
                   <span className="skill-symbol html-symbol">
                     &lt;/&gt;
                   </span>
+
                 </div>
 
-                <h4>HTML5</h4>
+                <h4>
+                  HTML5
+                </h4>
 
                 <p>
                   Semantic structure and markup
                 </p>
 
                 <div className="skill-level">
-                  <span>FOUNDATION</span>
+
+                  <span>
+                    FOUNDATION
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-html"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -611,24 +673,37 @@ function App() {
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">02</span>
+
+                  <span className="skill-index">
+                    02
+                  </span>
+
                   <span className="skill-symbol css-symbol">
                     #
                   </span>
+
                 </div>
 
-                <h4>CSS3</h4>
+                <h4>
+                  CSS3
+                </h4>
 
                 <p>
                   Styling and responsive design
                 </p>
 
                 <div className="skill-level">
-                  <span>FOUNDATION</span>
+
+                  <span>
+                    FOUNDATION
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-css"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -637,24 +712,37 @@ function App() {
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">03</span>
+
+                  <span className="skill-index">
+                    03
+                  </span>
+
                   <span className="skill-symbol js-symbol">
                     JS
                   </span>
+
                 </div>
 
-                <h4>JAVASCRIPT</h4>
+                <h4>
+                  JAVASCRIPT
+                </h4>
 
                 <p>
                   Logic and interactive experiences
                 </p>
 
                 <div className="skill-level">
-                  <span>DEVELOPING</span>
+
+                  <span>
+                    DEVELOPING
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-js"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -663,24 +751,37 @@ function App() {
               <div className="skill-card featured-skill">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">04</span>
+
+                  <span className="skill-index">
+                    04
+                  </span>
+
                   <span className="skill-symbol react-symbol">
                     ⚛
                   </span>
+
                 </div>
 
-                <h4>REACT.JS</h4>
+                <h4>
+                  REACT.JS
+                </h4>
 
                 <p>
                   Component-based interfaces
                 </p>
 
                 <div className="skill-level">
-                  <span>DEVELOPING</span>
+
+                  <span>
+                    DEVELOPING
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-react"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -715,27 +816,41 @@ function App() {
 
             <div className="skill-grid">
 
+
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">01</span>
+
+                  <span className="skill-index">
+                    01
+                  </span>
+
                   <span className="skill-symbol node-symbol">
                     N
                   </span>
+
                 </div>
 
-                <h4>NODE.JS</h4>
+                <h4>
+                  NODE.JS
+                </h4>
 
                 <p>
                   Server-side JavaScript
                 </p>
 
                 <div className="skill-level">
-                  <span>LEARNING</span>
+
+                  <span>
+                    LEARNING
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-node"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -744,24 +859,37 @@ function App() {
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">02</span>
+
+                  <span className="skill-index">
+                    02
+                  </span>
+
                   <span className="skill-symbol express-symbol">
                     EX
                   </span>
+
                 </div>
 
-                <h4>EXPRESS.JS</h4>
+                <h4>
+                  EXPRESS.JS
+                </h4>
 
                 <p>
                   Backend APIs and routing
                 </p>
 
                 <div className="skill-level">
-                  <span>LEARNING</span>
+
+                  <span>
+                    LEARNING
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-express"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -770,24 +898,37 @@ function App() {
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">03</span>
+
+                  <span className="skill-index">
+                    03
+                  </span>
+
                   <span className="skill-symbol rest-symbol">
                     API
                   </span>
+
                 </div>
 
-                <h4>REST APIs</h4>
+                <h4>
+                  REST APIs
+                </h4>
 
                 <p>
                   Application communication
                 </p>
 
                 <div className="skill-level">
-                  <span>LEARNING</span>
+
+                  <span>
+                    LEARNING
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-api"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -822,32 +963,44 @@ function App() {
 
             <div className="skill-grid">
 
+
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">01</span>
+
+                  <span className="skill-index">
+                    01
+                  </span>
 
                   <span className="skill-symbol mongo-symbol">
                     M
                   </span>
+
                 </div>
 
-                <h4>MONGODB</h4>
+                <h4>
+                  MONGODB
+                </h4>
 
                 <p>
                   NoSQL database
                 </p>
 
                 <div className="skill-level">
-                  <span>LEARNING</span>
+
+                  <span>
+                    LEARNING
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-mongo"></div>
+
                   </div>
+
                 </div>
 
               </div>
-
 
             </div>
 
@@ -879,28 +1032,41 @@ function App() {
 
             <div className="skill-grid">
 
+
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">01</span>
+
+                  <span className="skill-index">
+                    01
+                  </span>
 
                   <span className="skill-symbol git-symbol">
                     G
                   </span>
+
                 </div>
 
-                <h4>GIT</h4>
+                <h4>
+                  GIT
+                </h4>
 
                 <p>
                   Version control
                 </p>
 
                 <div className="skill-level">
-                  <span>FAMILIAR</span>
+
+                  <span>
+                    FAMILIAR
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-git"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -909,25 +1075,37 @@ function App() {
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">02</span>
+
+                  <span className="skill-index">
+                    02
+                  </span>
 
                   <span className="skill-symbol github-symbol">
                     GH
                   </span>
+
                 </div>
 
-                <h4>GITHUB</h4>
+                <h4>
+                  GITHUB
+                </h4>
 
                 <p>
                   Repositories and collaboration
                 </p>
 
                 <div className="skill-level">
-                  <span>FAMILIAR</span>
+
+                  <span>
+                    FAMILIAR
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-github"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -936,25 +1114,37 @@ function App() {
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">03</span>
+
+                  <span className="skill-index">
+                    03
+                  </span>
 
                   <span className="skill-symbol vscode-symbol">
                     &gt;_
                   </span>
+
                 </div>
 
-                <h4>VS CODE</h4>
+                <h4>
+                  VS CODE
+                </h4>
 
                 <p>
                   Development environment
                 </p>
 
                 <div className="skill-level">
-                  <span>DAILY USE</span>
+
+                  <span>
+                    DAILY USE
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-vscode"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -963,25 +1153,37 @@ function App() {
               <div className="skill-card">
 
                 <div className="skill-card-top">
-                  <span className="skill-index">04</span>
+
+                  <span className="skill-index">
+                    04
+                  </span>
 
                   <span className="skill-symbol figma-symbol">
                     F
                   </span>
+
                 </div>
 
-                <h4>FIGMA</h4>
+                <h4>
+                  FIGMA
+                </h4>
 
                 <p>
                   UI/UX and interface design
                 </p>
 
                 <div className="skill-level">
-                  <span>FAMILIAR</span>
+
+                  <span>
+                    FAMILIAR
+                  </span>
 
                   <div className="level-track">
+
                     <div className="level-fill level-figma"></div>
+
                   </div>
+
                 </div>
 
               </div>
@@ -1009,9 +1211,14 @@ function App() {
       </section>
 
 
-      {/* ================= PROJECTS ================= */}
+      {/* =====================================================
+          PROJECTS
+      ===================================================== */}
 
-      <section id="projects" className="projects-section">
+      <section
+        id="projects"
+        className="projects-section"
+      >
 
         <div className="projects-container">
 
@@ -1029,8 +1236,13 @@ function App() {
               </p>
 
               <h2>
+
                 PROJECTS
-                <span>.</span>
+
+                <span>
+                  .
+                </span>
+
               </h2>
 
             </div>
@@ -1041,8 +1253,10 @@ function App() {
           <div className="projects-intro">
 
             <p>
+
               Projects built while developing my skills in
               full stack development and modern web technologies.
+
             </p>
 
             <span>
@@ -1054,7 +1268,9 @@ function App() {
 
           {/* PROJECT 01 */}
 
-          <article className="project project-featured">
+          <article
+            className="project project-featured"
+          >
 
             <div className="project-number">
               01
@@ -1068,9 +1284,11 @@ function App() {
                 <div className="browser-top">
 
                   <div className="browser-dots">
+
                     <span></span>
                     <span></span>
                     <span></span>
+
                   </div>
 
                   <div className="browser-address">
@@ -1112,20 +1330,25 @@ function App() {
                       </small>
 
                       <h4>
+
                         Expand your
                         <br />
                         knowledge.
+
                       </h4>
 
                       <p>
+
                         Learn from anywhere with
                         engaging online courses.
+
                       </p>
 
                     </div>
 
 
                     <div className="course-row">
+
 
                       <div className="course-card">
 
@@ -1198,26 +1421,47 @@ function App() {
 
 
               <h3>
+
                 UDEMY
+
                 <br />
-                <span>CLONE.</span>
+
+                <span>
+                  CLONE.
+                </span>
+
               </h3>
 
 
               <p className="project-description">
+
                 A modern online learning platform interface
                 inspired by popular education platforms.
                 Built to practice responsive design,
                 reusable components and interactive
                 user experiences.
+
               </p>
 
 
               <div className="project-tech">
-                <span>REACT.JS</span>
-                <span>JAVASCRIPT</span>
-                <span>HTML</span>
-                <span>CSS</span>
+
+                <span>
+                  REACT.JS
+                </span>
+
+                <span>
+                  JAVASCRIPT
+                </span>
+
+                <span>
+                  HTML
+                </span>
+
+                <span>
+                  CSS
+                </span>
+
               </div>
 
 
@@ -1227,16 +1471,27 @@ function App() {
                   href="#"
                   className="project-link primary-project-link"
                 >
+
                   VIEW PROJECT
-                  <span>↗</span>
+
+                  <span>
+                    ↗
+                  </span>
+
                 </a>
+
 
                 <a
                   href="#"
                   className="project-link"
                 >
+
                   SOURCE CODE
-                  <span>↗</span>
+
+                  <span>
+                    ↗
+                  </span>
+
                 </a>
 
               </div>
@@ -1248,7 +1503,9 @@ function App() {
 
           {/* PROJECT 02 */}
 
-          <article className="project project-reverse">
+          <article
+            className="project project-reverse"
+          >
 
             <div className="project-number">
               02
@@ -1321,23 +1578,46 @@ function App() {
                     <div className="product-mini-grid">
 
                       <div className="mini-product">
+
                         <div></div>
-                        <span>Product A</span>
+
+                        <span>
+                          Product A
+                        </span>
+
                       </div>
 
-                      <div className="mini-product">
-                        <div></div>
-                        <span>Product B</span>
-                      </div>
 
                       <div className="mini-product">
+
                         <div></div>
-                        <span>Product C</span>
+
+                        <span>
+                          Product B
+                        </span>
+
                       </div>
 
+
                       <div className="mini-product">
+
                         <div></div>
-                        <span>Product D</span>
+
+                        <span>
+                          Product C
+                        </span>
+
+                      </div>
+
+
+                      <div className="mini-product">
+
+                        <div></div>
+
+                        <span>
+                          Product D
+                        </span>
+
                       </div>
 
                     </div>
@@ -1367,27 +1647,54 @@ function App() {
 
 
               <h3>
+
                 B2B PRODUCT
+
                 <br />
-                <span>PORTAL.</span>
+
+                <span>
+                  PORTAL.
+                </span>
+
               </h3>
 
 
               <p className="project-description">
+
                 A responsive B2B product catalog and buyer
                 portal featuring product search, filtering,
                 categories, detailed product views,
                 authentication and buyer workflows.
+
               </p>
 
 
               <div className="project-tech">
-                <span>REACT.JS</span>
-                <span>NODE.JS</span>
-                <span>EXPRESS.JS</span>
-                <span>MONGODB</span>
-                <span>REST API</span>
-                <span>JWT</span>
+
+                <span>
+                  REACT.JS
+                </span>
+
+                <span>
+                  NODE.JS
+                </span>
+
+                <span>
+                  EXPRESS.JS
+                </span>
+
+                <span>
+                  MONGODB
+                </span>
+
+                <span>
+                  REST API
+                </span>
+
+                <span>
+                  JWT
+                </span>
+
               </div>
 
 
@@ -1397,16 +1704,27 @@ function App() {
                   href="#"
                   className="project-link"
                 >
+
                   VIEW PROJECT
-                  <span>↗</span>
+
+                  <span>
+                    ↗
+                  </span>
+
                 </a>
+
 
                 <a
                   href="#"
                   className="project-link"
                 >
+
                   SOURCE CODE
-                  <span>↗</span>
+
+                  <span>
+                    ↗
+                  </span>
+
                 </a>
 
               </div>
@@ -1483,24 +1801,48 @@ function App() {
                     <div className="ai-stats">
 
                       <div>
-                        <span>TASKS</span>
-                        <strong>24</strong>
+
+                        <span>
+                          TASKS
+                        </span>
+
+                        <strong>
+                          24
+                        </strong>
+
                       </div>
 
-                      <div>
-                        <span>COMPLETED</span>
-                        <strong>18</strong>
-                      </div>
 
                       <div>
-                        <span>AUTOMATED</span>
-                        <strong>76%</strong>
+
+                        <span>
+                          COMPLETED
+                        </span>
+
+                        <strong>
+                          18
+                        </strong>
+
+                      </div>
+
+
+                      <div>
+
+                        <span>
+                          AUTOMATED
+                        </span>
+
+                        <strong>
+                          76%
+                        </strong>
+
                       </div>
 
                     </div>
 
 
                     <div className="ai-chart">
+
                       <span></span>
                       <span></span>
                       <span></span>
@@ -1508,6 +1850,7 @@ function App() {
                       <span></span>
                       <span></span>
                       <span></span>
+
                     </div>
 
                   </div>
@@ -1535,26 +1878,50 @@ function App() {
 
 
               <h3>
+
                 AI BUSINESS
+
                 <br />
-                <span>ASSISTANT.</span>
+
+                <span>
+                  ASSISTANT.
+                </span>
+
               </h3>
 
 
               <p className="project-description">
+
                 An AI-assisted application designed to
                 automate repetitive business operations
                 and workflows using intelligent text
                 processing and task assistance.
+
               </p>
 
 
               <div className="project-tech">
-                <span>REACT.JS</span>
-                <span>NODE.JS</span>
-                <span>EXPRESS.JS</span>
-                <span>MONGODB</span>
-                <span>LLM API</span>
+
+                <span>
+                  REACT.JS
+                </span>
+
+                <span>
+                  NODE.JS
+                </span>
+
+                <span>
+                  EXPRESS.JS
+                </span>
+
+                <span>
+                  MONGODB
+                </span>
+
+                <span>
+                  LLM API
+                </span>
+
               </div>
 
 
@@ -1564,16 +1931,27 @@ function App() {
                   href="#"
                   className="project-link"
                 >
+
                   VIEW PROJECT
-                  <span>↗</span>
+
+                  <span>
+                    ↗
+                  </span>
+
                 </a>
+
 
                 <a
                   href="#"
                   className="project-link"
                 >
+
                   SOURCE CODE
-                  <span>↗</span>
+
+                  <span>
+                    ↗
+                  </span>
+
                 </a>
 
               </div>
@@ -1602,9 +1980,14 @@ function App() {
       </section>
 
 
-      {/* ================= JOURNEY ================= */}
+      {/* =====================================================
+          JOURNEY
+      ===================================================== */}
 
-      <section id="journey" className="journey-section">
+      <section
+        id="journey"
+        className="journey-section"
+      >
 
         <div className="journey-container">
 
@@ -1622,8 +2005,13 @@ function App() {
               </p>
 
               <h2>
+
                 MY
-                <span> JOURNEY.</span>
+
+                <span>
+                  {" "}JOURNEY.
+                </span>
+
               </h2>
 
             </div>
@@ -1634,9 +2022,11 @@ function App() {
           <div className="journey-intro">
 
             <p>
+
               Every project, challenge and new technology
               is part of my journey toward becoming a
               stronger software developer.
+
             </p>
 
             <span>
@@ -1656,7 +2046,9 @@ function App() {
               </div>
 
               <div className="journey-line">
+
                 <div className="journey-dot"></div>
+
               </div>
 
               <div className="journey-content">
@@ -1670,15 +2062,27 @@ function App() {
                 </h3>
 
                 <p>
+
                   Focused on strengthening my programming
                   fundamentals and learning the core
                   technologies required for web development.
+
                 </p>
 
                 <div className="journey-tags">
-                  <span>PROGRAMMING</span>
-                  <span>WEB</span>
-                  <span>GIT</span>
+
+                  <span>
+                    PROGRAMMING
+                  </span>
+
+                  <span>
+                    WEB
+                  </span>
+
+                  <span>
+                    GIT
+                  </span>
+
                 </div>
 
               </div>
@@ -1693,7 +2097,9 @@ function App() {
               </div>
 
               <div className="journey-line">
+
                 <div className="journey-dot active"></div>
+
               </div>
 
               <div className="journey-content">
@@ -1707,16 +2113,31 @@ function App() {
                 </h3>
 
                 <p>
+
                   Developing full stack skills with React,
                   Node.js, Express.js and MongoDB while
                   building practical applications.
+
                 </p>
 
                 <div className="journey-tags">
-                  <span>REACT</span>
-                  <span>NODE.JS</span>
-                  <span>EXPRESS</span>
-                  <span>MONGODB</span>
+
+                  <span>
+                    REACT
+                  </span>
+
+                  <span>
+                    NODE.JS
+                  </span>
+
+                  <span>
+                    EXPRESS
+                  </span>
+
+                  <span>
+                    MONGODB
+                  </span>
+
                 </div>
 
               </div>
@@ -1731,7 +2152,9 @@ function App() {
               </div>
 
               <div className="journey-line">
+
                 <div className="journey-dot active"></div>
+
               </div>
 
               <div className="journey-content">
@@ -1745,15 +2168,27 @@ function App() {
                 </h3>
 
                 <p>
+
                   Applying my skills through projects such as
                   the B2B Product Catalog, AI Business Operations
                   Assistant and Udemy Clone.
+
                 </p>
 
                 <div className="journey-tags">
-                  <span>PROJECTS</span>
-                  <span>FULL STACK</span>
-                  <span>UI DESIGN</span>
+
+                  <span>
+                    PROJECTS
+                  </span>
+
+                  <span>
+                    FULL STACK
+                  </span>
+
+                  <span>
+                    UI DESIGN
+                  </span>
+
                 </div>
 
               </div>
@@ -1768,7 +2203,9 @@ function App() {
               </div>
 
               <div className="journey-line">
+
                 <div className="journey-dot future-dot"></div>
+
               </div>
 
               <div className="journey-content">
@@ -1782,15 +2219,27 @@ function App() {
                 </h3>
 
                 <p>
+
                   Continue improving my development skills,
                   build production-ready applications and
                   prepare for a career in software development.
+
                 </p>
 
                 <div className="journey-tags">
-                  <span>FULL STACK</span>
-                  <span>PROBLEM SOLVING</span>
-                  <span>CAREER</span>
+
+                  <span>
+                    FULL STACK
+                  </span>
+
+                  <span>
+                    PROBLEM SOLVING
+                  </span>
+
+                  <span>
+                    CAREER
+                  </span>
+
                 </div>
 
               </div>
@@ -1825,9 +2274,14 @@ function App() {
       </section>
 
 
-      {/* ================= CONTACT ================= */}
+      {/* =====================================================
+          CONTACT
+      ===================================================== */}
 
-      <section id="contact" className="contact-section">
+      <section
+        id="contact"
+        className="contact-section"
+      >
 
         <div className="contact-container">
 
@@ -1845,8 +2299,13 @@ function App() {
               </p>
 
               <h2>
+
                 LET'S
-                <span> TALK.</span>
+
+                <span>
+                  {" "}TALK.
+                </span>
+
               </h2>
 
             </div>
@@ -1875,9 +2334,11 @@ function App() {
 
 
               <p className="contact-description">
+
                 I'm interested in learning, building new
                 things and connecting with people who are
                 passionate about technology.
+
               </p>
 
 
@@ -1896,8 +2357,6 @@ function App() {
 
               </a>
 
-
-              {/* RESUME BUTTON */}
 
               <a
                 href="/Praveen-Kumar-Reddy-Resume.pdf"
@@ -2087,13 +2546,14 @@ function App() {
 
           </div>
 
-
         </div>
 
       </section>
 
 
-      {/* ================= FOOTER ================= */}
+      {/* =====================================================
+          FOOTER
+      ===================================================== */}
 
       <footer className="footer">
 
